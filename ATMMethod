@@ -1,0 +1,101 @@
+
+package ATM;
+
+
+import java.util.Scanner;
+
+public class ATMMethods {
+    Scanner sc=new Scanner(System.in);
+    private final int pin=123;
+    private double Amount;
+
+    ATMMethods() {
+
+        int count = 0;
+        int cou=0;
+        System.out.println("Enter the pin:");
+        while (true) {
+            int cpin = sc.nextInt();
+            if (cpin != pin) {
+                count++;
+                if (count == 3) {
+                    System.out.println("you exceed the limit");
+                    System.out.println("ATM card block");
+                    break;
+                }
+                System.out.println("Wrong pin enter again:");
+
+            } else {
+                System.out.println("Welcome to your bank account:");
+                while (true){
+
+                    System.out.println("Deposit[1]");
+                System.out.println("Withdraw[2]");
+                System.out.println("Check balance[3]");
+                System.out.println("Exit[4]");
+                int chose = sc.nextInt();
+                switch (chose) {
+                    case 1:
+                        System.out.println("Enter the amount:");
+                        int cam = sc.nextInt();
+                        Deposit(cam);
+                        break;
+                    case 2:
+                        System.out.println("Enter the amount:");
+                        int Df = sc.nextInt();
+                        Withdraw(Df);
+                        break;
+                    case 3:
+                        Balance();
+                        break;
+                    case 4:
+                        cou++;
+                        break;
+                }
+                if(cou!=0)
+                    break;
+            }
+            }
+            if(cou!=0)
+                break;
+        }
+    }
+
+    public void Deposit(int a){
+        if(a>0){
+            Amount=Amount+a;
+
+        }
+    }
+    public void Withdraw(int a) {
+        int count = 0;
+        while (true){
+            if (a > Amount) {
+                count++;
+                System.out.println("Low Amount in your account:");
+                System.out.println("want to enter another amount[yes=1/no=2]");
+                int st=sc.nextInt();
+                if(st==1){
+                    System.out.println("Enter amount:");
+                    int am=sc.nextInt();
+                    continue;
+                }else {
+                    count = 0;
+                    break;
+                }
+
+
+            } else{
+                Amount=Amount-a;
+                count=0;
+            }
+            if(count==0)
+                break;
+    }
+    }
+
+    public void Balance(){
+        System.out.println("Total Amount in your account:"+Amount);
+    }
+
+}
