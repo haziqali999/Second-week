@@ -1,0 +1,9 @@
+package ATM;
+
+import java.util.Scanner;
+
+public class ATMMain {
+    public static void main(String[] args) {
+        ATMMethods ATM=new ATMMethods();
+    }
+}
