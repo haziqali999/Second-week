@@ -1,0 +1,171 @@
+
+import java.util.Scanner;
+
+public class StudentGradebookManager {
+
+    static final int MAX = 50;
+
+    // Arrays to store data
+    static int[] roll = new int[MAX];
+    static String[] name = new String[MAX];
+    static int[] marks = new int[MAX];
+
+    // Current student count
+    static int count = 0;
+
+    // Method a: Add Student
+    public static void addStudent(int r, String n, int m) {
+        if (count < MAX) {
+            roll[count] = r;
+            name[count] = n;
+            marks[count] = m;
+            count++;
+            System.out.println("Student added successfully!\n");
+        } else {
+            System.out.println("Gradebook full! Cannot add more students.\n");
+        }
+    }
+
+    // Method b: Display All
+    public static void displayAll() {
+        if (count == 0) {
+            System.out.println("No students available.\n");
+            return;
+        }
+        System.out.println("Roll\tName\tMarks\tGrade");
+        for (int i = 0; i < count; i++) {
+            System.out.println(roll[i] + "\t" + name[i] + "\t" + marks[i] + "\t" + grade(marks[i]));
+        }
+        System.out.println();
+    }
+
+    // Method c: Search by Roll
+    public static void search(int r) {
+        boolean found = false;
+        for (int i = 0; i < count; i++) {
+            if (roll[i] == r) {
+                System.out.println("Found: " + roll[i] + " " + name[i] + " Marks: " + marks[i] + " Grade: " + grade(marks[i]) + "\n");
+                found = true;
+                break; // exit early
+            }
+        }
+        if (!found) {
+            System.out.println("Student with roll " + r + " not found.\n");
+        }
+    }
+
+    // Method d: Search by Name (overloading)
+    public static void search(String n) {
+        boolean found = false;
+        for (int i = 0; i < count; i++) {
+            if (name[i].equalsIgnoreCase(n)) {
+                System.out.println("Found: " + roll[i] + " " + name[i] + " Marks: " + marks[i] + " Grade: " + grade(marks[i]) + "\n");
+                found = true;
+                break; // exit early
+            }
+        }
+        if (!found) {
+            System.out.println("Student with name " + n + " not found.\n");
+        }
+    }
+
+    // Method e: Compute Average
+    public static double computeAverage(int[] marks, int c) {
+        if (c == 0) return 0;
+        int sum = 0;
+        for (int i = 0; i < c; i++) {
+            sum += marks[i];
+        }
+        return (double) sum / c;
+    }
+
+    // Method f: Grade
+    public static String grade(int m) {
+        if (m >= 85) return "A";
+        else if (m >= 70) return "B";
+        else if (m >= 50) return "C";
+        else return "F";
+    }
+
+    // Main Method
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        while (true) {
+            System.out.println("===== Student Gradebook Menu =====");
+            System.out.println("1) Add Student");
+            System.out.println("2) Display All");
+            System.out.println("3) Search Student");
+            System.out.println("4) Class Average & Topper");
+            System.out.println("5) Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Roll Number: ");
+                    int r = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Name: ");
+                    String n = sc.nextLine();
+                    int m;
+                    while (true) {
+                        System.out.print("Enter Marks (0-100): ");
+                        m = sc.nextInt();
+                        if (m < 0 || m > 100) {
+                            System.out.println("Invalid marks! Please enter between 0-100.");
+                            continue; // retry input
+                        }
+                        break;
+                    }
+                    addStudent(r, n, m);
+                    break;
+
+                case 2:
+                    displayAll();
+                    break;
+
+                case 3:
+                    System.out.println("Search by: 1) Roll  2) Name");
+                    int opt = sc.nextInt();
+                    sc.nextLine();
+                    if (opt == 1) {
+                        System.out.print("Enter Roll: ");
+                        int sr = sc.nextInt();
+                        search(sr);
+                    } else {
+                        System.out.print("Enter Name: ");
+                        String sn = sc.nextLine();
+                        search(sn);
+                    }
+                    break;
+
+                case 4:
+                    double avg = computeAverage(marks, count);
+                    System.out.println("Class Average: " + avg);
+
+                    if (count > 0) {
+                        int topIndex = 0;
+                        for (int i = 1; i < count; i++) {
+                            if (marks[i] > marks[topIndex]) {
+                                topIndex = i;
+                            }
+                        }
+                        System.out.println("Topper: " + name[topIndex] + " (Roll " + roll[topIndex] + ") Marks: " + marks[topIndex] + " Grade: " + grade(marks[topIndex]));
+                    }
+                    System.out.println();
+                    break;
+
+                case 5:
+                    System.out.println("Exiting program...");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Try again.\n");
+            }
+        }
+    }
+}
