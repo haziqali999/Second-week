@@ -1,0 +1,18 @@
+
+package AREA;
+
+public class Areamethods {
+    public double area(double x){
+        double cir=(2*3.14)*x;
+        return cir;
+    }
+    public double area(double x,double y){
+        double c=x*y;
+        return c;
+    }
+    public double area(int x){
+        double cr=(double)x*x;
+        return cr;
+    }
+
+}
